@@ -3,6 +3,7 @@ import { ThemeProvider } from 'styled-components';
 import { theme, GlobalStyle } from './styles';
 import { AppLoading } from './pages/AppLoading';
 import { Router } from './router';
+import './services/i18n';
 
 const Root: React.FC = () => (
   <ThemeProvider theme={theme}>
