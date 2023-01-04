@@ -1,4 +1,7 @@
-const colors = {};
+const colors = {
+  grey: '#4a4a4a',
+  white: '#FFFFFF',
+};
 
 const font = {
   family: {
