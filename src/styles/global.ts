@@ -7,8 +7,6 @@ export const GlobalStyle = createGlobalStyle`
   body {
      font-family: ${({ theme }) => theme.font.family.default};
      overflow-x: hidden;
-     background: ${({ theme }) => theme.colors.grey};
-     color: ${({ theme }) => theme.colors.white};
   }
 `;
 

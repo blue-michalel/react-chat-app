@@ -14,6 +14,11 @@ const primary = css`
       fill: ${({ theme }) => theme.colors.white};
     }
   }
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.blue2};
+    box-shadow: inset 0 3px 2px rgba(39, 43, 95, 0.15);
+  }
 `;
 
 const secondary = css`
@@ -24,6 +29,10 @@ const secondary = css`
     > path {
       fill: ${({ theme }) => theme.colors.blue};
     }
+  }
+
+  &:hover {
+    box-shadow: inset 0 4px 3px rgba(39, 43, 95, 0.05);
   }
 `;
 

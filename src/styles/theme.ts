@@ -1,6 +1,8 @@
 const colors = {
-  grey: '#4a4a4a',
+  grey: '#F4F5F4',
   white: '#FFFFFF',
+  blue: '#1976d2',
+  blue2: '#1565c0',
 };
 
 const font = {
