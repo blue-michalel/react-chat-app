@@ -2,13 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Root from './Root';
 import reportWebVitals from './reportWebVitals';
+import DailyIframe from '@daily-co/daily-js';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 root.render(
   <React.StrictMode>
-    <Root />
+    {DailyIframe.supportedBrowser().supported && <Root />}
   </React.StrictMode>,
 );
 
