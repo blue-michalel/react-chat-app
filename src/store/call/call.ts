@@ -33,7 +33,7 @@ const store: StateCreator<State, [], [], State> = (set) => ({
 
 const persistStorage = persist<State>((...arg) => store(...arg), {
   name: STORE_NAME,
-  storage: createJSONStorage(() => sessionStorage),
+  storage: createJSONStorage(() => localStorage),
 });
 
 export const useStore = create(devtools(persistStorage));

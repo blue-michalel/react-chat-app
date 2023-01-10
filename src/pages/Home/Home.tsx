@@ -1,32 +1,23 @@
 import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import { Layout } from '../../containers/Layout';
 import { PlayIcon } from '../../icons';
-import { routes } from '../../router';
 import { Container } from './styles';
-import { createRoom, selectRoom, useCallStore } from '../../store/call';
+import { createRoom, useCallStore } from '../../store/call';
+import { useStartCall } from './hooks';
 
 const Home: React.FC = () => {
   const { t } = useTranslation('home');
-  const navigate = useNavigate();
   const createCallRoom = useCallStore(createRoom);
-  const callId = useCallStore(selectRoom);
+  const { startCall } = useStartCall();
 
   // todo add error handling
   const crateCall = useCallback(async () => {
     createCallRoom(() => {
-      console.log('oks');
+      console.log('room created');
     });
   }, [createCallRoom]);
-
-  const startCall = useCallback(() => {
-    if (callId?.id) {
-      console.log('navigate to existing call');
-      navigate(routes.RootRoutes.Call.replace(':id', callId.id));
-    }
-  }, [callId, navigate]);
 
   useEffect(() => {
     startCall();
