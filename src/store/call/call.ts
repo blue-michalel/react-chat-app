@@ -12,7 +12,12 @@ export interface State {
   error?: AxiosError;
   data?: RoomCreated;
   createRoom(onSuccess?: () => void, onError?: () => void): Promise<void>;
+  endCall(): void;
 }
+
+const endCallAction = (set: StoreApi<State>['setState']) => () => {
+  set({ data: undefined });
+};
 
 const createRoomAction =
   (set: StoreApi<State>['setState']) =>
@@ -29,6 +34,7 @@ const createRoomAction =
 const store: StateCreator<State, [], [], State> = (set) => ({
   loading: false,
   createRoom: createRoomAction(set),
+  endCall: endCallAction(set),
 });
 
 const persistStorage = persist<State>((...arg) => store(...arg), {

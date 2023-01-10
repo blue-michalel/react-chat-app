@@ -9,3 +9,5 @@ export const selectError = (state: CommonState) => state.error;
 export const selectRoom = (state: CommonState) => state.data;
 
 export const createRoom = (state: CommonState) => state.createRoom;
+
+export const endCall = (state: CommonState) => state.endCall;

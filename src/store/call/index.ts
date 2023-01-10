@@ -4,7 +4,15 @@ import {
   selectLoading,
   selectRoom,
   createRoom,
+  endCall,
 } from './selectors';
 
 export type { CallState };
-export { useCallStore, selectError, selectLoading, selectRoom, createRoom };
+export {
+  useCallStore,
+  selectError,
+  selectLoading,
+  selectRoom,
+  createRoom,
+  endCall,
+};
