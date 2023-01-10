@@ -1,7 +1,52 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Container } from './styles';
+import { Layout } from '../../containers/Layout';
+import { Video } from '../../components/Video';
+import { useCallAction } from './hooks';
+import {
+  DailyEventObjectFatalError,
+  DailyParticipant,
+} from '@daily-co/daily-js';
+import Button from '../../components/Button/Button';
 
 const CallPage = () => {
-  return <div>Call Page</div>;
+  const [participants, setParticipants] = useState<DailyParticipant>();
+  const { callObject, startJoiningCall, getParticipants, leaveCall } =
+    useCallAction();
+
+  const handleErrors = useCallback(
+    (error?: DailyEventObjectFatalError) => {
+      if (error?.error?.type === 'exp-room') {
+        console.log('rom expires');
+        leaveCall();
+      }
+      console.log('unsupported error', error);
+    },
+    [leaveCall],
+  );
+
+  const handleParticipants = useCallback(() => {
+    const participants = getParticipants()!;
+    setParticipants(participants);
+  }, [getParticipants]);
+
+  useEffect(() => {
+    startJoiningCall();
+  }, [startJoiningCall]);
+
+  useEffect(() => {
+    callObject?.on('error', handleErrors);
+    callObject?.on('participant-counts-updated', handleParticipants);
+  }, [callObject, handleErrors, handleParticipants]);
+
+  return (
+    <Layout>
+      <Container>
+        {participants && <Video videoTrack={participants.videoTrack} />}
+        <Button title="end call" onClick={leaveCall} />
+      </Container>
+    </Layout>
+  );
 };
 
 export default React.memo(CallPage);
