@@ -7,7 +7,11 @@ import DailyIframe from '@daily-co/daily-js';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
-root.render(<>{DailyIframe.supportedBrowser().supported && <Root />}</>);
+root.render(
+  <React.StrictMode>
+    {DailyIframe.supportedBrowser().supported && <Root />}
+  </React.StrictMode>,
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
