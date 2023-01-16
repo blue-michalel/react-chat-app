@@ -1,43 +1,34 @@
+import DailyIframe, { DailyCall } from '@daily-co/daily-js';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Container } from './styles';
-import { Layout } from '../../containers/Layout';
-import { Video } from '../../components/Video';
-import { useCallAction, Participants } from './hooks';
-import { DailyEventObjectFatalError } from '@daily-co/daily-js';
 import Button from '../../components/Button/Button';
+import { Video } from '../../components/Video';
+import { Layout } from '../../containers/Layout';
+import {
+  useEndCall,
+  useHandleErrors,
+  useInitCall,
+  useParticipant,
+} from './hooks';
+import { Container } from './styles';
 
 const CallPage = () => {
-  const [participants, setParticipants] = useState<Participants>();
-  const { callObject, startJoiningCall, getParticipants, leaveCall } =
-    useCallAction();
-
-  const handleErrors = useCallback(
-    (error?: DailyEventObjectFatalError) => {
-      if (error?.error?.type === 'exp-room') {
-        console.log('rom expires');
-        leaveCall();
-      }
-      console.log('unsupported error', error);
-    },
-    [leaveCall],
+  const [callObject, setCallObject] = useState<DailyCall | undefined>(
+    DailyIframe.createCallObject(),
   );
+  const { startJoiningCall } = useInitCall(callObject);
+  const { participants } = useParticipant(callObject);
+  const { leaveCall } = useEndCall(callObject);
+  useHandleErrors(callObject);
 
-  const handleParticipants = useCallback(() => {
-    const participants = getParticipants()!;
-    setParticipants(participants);
-  }, [getParticipants]);
+  const handleLeaveCall = useCallback(() => {
+    leaveCall(() => {
+      setCallObject(undefined);
+    });
+  }, [leaveCall]);
 
   useEffect(() => {
     startJoiningCall();
   }, [startJoiningCall]);
-
-  // todo clear event after leave call
-  useEffect(() => {
-    callObject?.on('error', handleErrors);
-    callObject?.on('participant-joined', handleParticipants);
-    callObject?.on('participant-updated', handleParticipants);
-    callObject?.on('participant-left', handleParticipants);
-  }, [callObject, handleErrors, handleParticipants]);
 
   return (
     <Layout>
@@ -50,7 +41,7 @@ const CallPage = () => {
               videoTrack={participant.videoTrack}
             />
           ))}
-        <Button title="end call" onClick={leaveCall} />
+        <Button title="end call" onClick={handleLeaveCall} />
       </Container>
     </Layout>
   );
