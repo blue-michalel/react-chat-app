@@ -5,6 +5,7 @@ import {
   selectRoom,
   createRoom,
   endCall,
+  checkRoom,
 } from './selectors';
 
 export type { CallState };
@@ -15,4 +16,5 @@ export {
   selectRoom,
   createRoom,
   endCall,
+  checkRoom,
 };

@@ -18,7 +18,7 @@ export const useStartCall = (): Props => {
 
       if (exp > now) {
         console.info('navigate to existing call');
-        navigate(routes.RootRoutes.Call.replace(':id', callId.id));
+        navigate(routes.RootRoutes.Call.replace(':roomName', callId.name));
       }
     }
   }, [callId, navigate]);

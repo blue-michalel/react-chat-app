@@ -12,12 +12,19 @@ export interface State {
   error?: AxiosError;
   data?: RoomCreated;
   createRoom(onSuccess?: () => void, onError?: () => void): Promise<void>;
-  endCall(): void;
+  checkRoom(
+    roomName: string,
+    onSuccess?: () => void,
+    onError?: () => void,
+  ): Promise<void>;
+  endCall(onSuccess?: () => void): void;
 }
 
-const endCallAction = (set: StoreApi<State>['setState']) => () => {
-  set({ data: undefined });
-};
+const endCallAction =
+  (set: StoreApi<State>['setState']) => (onSuccess?: () => void) => {
+    set({ data: undefined });
+    onSuccess?.();
+  };
 
 const createRoomAction =
   (set: StoreApi<State>['setState']) =>
@@ -31,10 +38,23 @@ const createRoomAction =
       onError,
     );
 
+const checkRoomAction =
+  (set: StoreApi<State>['setState']) =>
+  (roomName: string, onSuccess?: () => void, onError?: () => void) =>
+    createAsyncAction(set)(
+      async () => {
+        const { data } = await roomApi.getRomDetails(roomName);
+        set({ data });
+      },
+      onSuccess,
+      onError,
+    );
+
 const store: StateCreator<State, [], [], State> = (set) => ({
   loading: false,
   createRoom: createRoomAction(set),
   endCall: endCallAction(set),
+  checkRoom: checkRoomAction(set),
 });
 
 const persistStorage = persist<State>((...arg) => store(...arg), {

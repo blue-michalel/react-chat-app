@@ -16,6 +16,10 @@ class RoomApi {
 
     return this.http.post<RoomCreated>(Endpoints.ROOMS, body);
   };
+
+  getRomDetails = (roomName: string) => {
+    return this.http.get(`${Endpoints.ROOMS}/${roomName}`);
+  };
 }
 
 export const roomApi = new RoomApi(axiosInstance);

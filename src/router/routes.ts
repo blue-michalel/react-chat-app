@@ -1,6 +1,6 @@
 export enum RootRoutes {
   HOME = '/',
-  Call = '/calls/:id',
+  Call = '/calls/:roomName',
 }
 
 export enum ErrorsRoutes {

@@ -2,15 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Container } from './styles';
 import { Layout } from '../../containers/Layout';
 import { Video } from '../../components/Video';
-import { useCallAction } from './hooks';
-import {
-  DailyEventObjectFatalError,
-  DailyParticipant,
-} from '@daily-co/daily-js';
+import { useCallAction, Participants } from './hooks';
+import { DailyEventObjectFatalError } from '@daily-co/daily-js';
 import Button from '../../components/Button/Button';
 
 const CallPage = () => {
-  const [participants, setParticipants] = useState<DailyParticipant>();
+  const [participants, setParticipants] = useState<Participants>();
   const { callObject, startJoiningCall, getParticipants, leaveCall } =
     useCallAction();
 
@@ -42,7 +39,14 @@ const CallPage = () => {
   return (
     <Layout>
       <Container>
-        {participants && <Video videoTrack={participants.videoTrack} />}
+        {participants && <Video videoTrack={participants.local.videoTrack} />}
+        {participants &&
+          participants.remote.map((participant) => (
+            <Video
+              key={participant.user_id}
+              videoTrack={participant.videoTrack}
+            />
+          ))}
         <Button title="end call" onClick={leaveCall} />
       </Container>
     </Layout>

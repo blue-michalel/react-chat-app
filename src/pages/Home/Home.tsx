@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '../../components/Button/Button';
 import { Layout } from '../../containers/Layout';
@@ -16,12 +16,9 @@ const Home: React.FC = () => {
   const crateCall = useCallback(async () => {
     createCallRoom(() => {
       console.log('room created');
+      startCall();
     });
-  }, [createCallRoom]);
-
-  useEffect(() => {
-    startCall();
-  }, [startCall]);
+  }, [createCallRoom, startCall]);
 
   return (
     <Layout>
