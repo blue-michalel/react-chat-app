@@ -34,6 +34,8 @@ const CallPage = () => {
   useEffect(() => {
     callObject?.on('error', handleErrors);
     callObject?.on('participant-counts-updated', handleParticipants);
+    callObject?.on('participant-joined', handleParticipants);
+    callObject?.on('participant-left', handleParticipants);
   }, [callObject, handleErrors, handleParticipants]);
 
   return (

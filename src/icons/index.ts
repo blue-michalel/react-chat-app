@@ -1,3 +1,4 @@
 import PlayIcon from './Play';
+import CameraOff from './Camera-off';
 
-export { PlayIcon };
+export { PlayIcon, CameraOff };
