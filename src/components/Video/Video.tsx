@@ -1,12 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import ImageOff from '../../assets/images/camera_off.png';
+import { StyledVideo, Props as StyledVideoProps } from './styles';
 
-export interface Props {
+export interface Props extends StyledVideoProps {
   videoTrack?: MediaStreamTrack;
 }
 
-const Video: React.FC<Props> = React.memo(({ videoTrack }) => {
+const Video: React.FC<Props> = React.memo(({ videoTrack, ...props }) => {
   const { t } = useTranslation('call');
   const videoEl = useRef<HTMLVideoElement>(null);
 
@@ -17,16 +18,17 @@ const Video: React.FC<Props> = React.memo(({ videoTrack }) => {
   }, [videoTrack]);
 
   return (
-    <video
-      width={300}
-      height={300}
+    <StyledVideo
       ref={videoEl}
       autoPlay
       playsInline
-      poster={ImageOff}>
+      poster={ImageOff}
+      {...props}>
       <span> {t('errors.not_support')}</span>
-    </video>
+    </StyledVideo>
   );
 });
+
+Video.displayName = 'Video';
 
 export default Video;

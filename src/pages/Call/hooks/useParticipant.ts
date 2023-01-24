@@ -17,7 +17,6 @@ export const useParticipant = (callObject?: DailyCall): Props => {
     if (callObject) {
       const { local, ...remote } = callObject.participants();
       const participants = { local, remote: Object.values(remote) };
-
       setParticipants(participants);
     }
   }, [callObject]);

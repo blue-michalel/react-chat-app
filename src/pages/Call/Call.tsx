@@ -1,5 +1,6 @@
 import DailyIframe, { DailyCall } from '@daily-co/daily-js';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Button from '../../components/Button/Button';
 import { Video } from '../../components/Video';
 import { Layout } from '../../containers/Layout';
@@ -9,12 +10,18 @@ import {
   useInitCall,
   useParticipant,
 } from './hooks';
-import { Container } from './styles';
+import {
+  Container,
+  VideoWrapper,
+  NavigationWrapper,
+  JoinOthersWrappers,
+} from './styles';
 
 const CallPage = () => {
   const [callObject, setCallObject] = useState<DailyCall | undefined>(
     DailyIframe.createCallObject(),
   );
+  const { t } = useTranslation('call');
   const { startJoiningCall } = useInitCall(callObject);
   const { participants } = useParticipant(callObject);
   const { leaveCall } = useEndCall(callObject);
@@ -33,15 +40,27 @@ const CallPage = () => {
   return (
     <Layout>
       <Container>
-        {participants && <Video videoTrack={participants.local.videoTrack} />}
-        {participants &&
-          participants.remote.map((participant) => (
-            <Video
-              key={participant.user_id}
-              videoTrack={participant.videoTrack}
-            />
-          ))}
-        <Button title="end call" onClick={handleLeaveCall} />
+        {participants && (
+          <Video videoTrack={participants.local.videoTrack} localVideo />
+        )}
+        <VideoWrapper>
+          {participants?.remote.length ? (
+            participants.remote.map((participant) => (
+              <Video
+                key={participant.user_id}
+                videoTrack={participant.videoTrack}
+              />
+            ))
+          ) : (
+            <JoinOthersWrappers>
+              <span>{t('actions.not_joined')}</span>
+              <span>{window.location.href}</span>
+            </JoinOthersWrappers>
+          )}
+        </VideoWrapper>
+        <NavigationWrapper>
+          <Button title="end call" onClick={handleLeaveCall} />
+        </NavigationWrapper>
       </Container>
     </Layout>
   );

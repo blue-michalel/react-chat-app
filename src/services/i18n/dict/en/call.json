@@ -1,5 +1,8 @@
 {
   "errors": {
     "not_support": "Your browser does not support the video tag."
+  },
+  "actions": {
+    "not_joined": "Copy and share this page's URL to invite others"
   }
 }
