@@ -22,3 +22,10 @@ export const Container = styled.div<Props>`
   animation: ${spin} 1.5s linear infinite;
   align-self: center;
 `;
+
+export const SpinnerWrapper = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;

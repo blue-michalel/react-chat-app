@@ -16,6 +16,7 @@ import {
   NavigationWrapper,
   JoinOthersWrappers,
 } from './styles';
+import { Spinner, SpinnerWrapper } from '../../components/Spinner';
 
 const CallPage = () => {
   const [callObject, setCallObject] = useState<DailyCall | undefined>(
@@ -36,6 +37,16 @@ const CallPage = () => {
   useEffect(() => {
     startJoiningCall();
   }, [startJoiningCall]);
+
+  if (!participants) {
+    return (
+      <Layout>
+        <SpinnerWrapper>
+          <Spinner />
+        </SpinnerWrapper>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
